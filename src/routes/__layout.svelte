@@ -1,10 +1,10 @@
 <script context="module">
   const modules = import.meta.glob("./**.svelte");
 
-  let menu = [];
+  let body = [];
   for (let path in modules) {
     let pathSanitized = path.replace(".svelte", "").replace("./", "/");
-    menu.push({
+    body.push({
       title: pathSanitized.substring(pathSanitized.lastIndexOf("/") + 1),
       link: pathSanitized.includes("index")
         ? pathSanitized.replace("index", "")
@@ -13,6 +13,7 @@
   }
 
   export const load = async () => {
+    const menu = await Promise.all(body);
     return {
       props: {
         menu,
